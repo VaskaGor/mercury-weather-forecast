@@ -1,13 +1,18 @@
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
+  font-family: "Ubuntu", sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+@font-face {
+  font-family: "Ubuntu";
+  src: url("assets/fonts/Ubuntu-Regular.ttf") format("ttf"),
+    url("assets/fonts/Ubuntu-Medium.ttf") format("ttf"),
+    url("assets/fonts/Ubuntu-MediumItalic.ttf") format("ttf"),
+    url("assets/fonts/Ubuntu-Light.ttf") format("ttf"),
+    url("assets/fonts/Ubuntu-LightItalic.ttf") format("ttf"),
+    url("assets/fonts/Ubuntu-Italic.ttf") format("ttf"),
+    url("assets/fonts/Ubuntu-Bold.ttf") format("ttf"),
+    url("assets/fonts/Ubuntu-BoldItalic.ttf") format("ttf");
 }

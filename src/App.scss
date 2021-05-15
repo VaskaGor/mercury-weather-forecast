@@ -1,38 +1,80 @@
-.App {
+@import "../src/styles/variables.scss";
+
+.app {
   text-align: center;
-}
-
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+  background-color: $color-accent;
+  height: 100vh;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
-}
+  justify-content: space-between;
 
-.App-link {
-  color: #61dafb;
-}
+  background-image: url("../src/assets/background/main-background-bottom.png"),
+    url("../src/assets/background/main-background-up.png");
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: 0% 100%, 100% 0%;
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
+  min-width: $content-min-width;
+  min-height: $content-min-height;
+
+  &__header {
+    width: 100%;
+    //TODO
+    height: calc(min(100px, calc(max(8vw, 32px))) * 3);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: white;
+
+    margin: 0;
   }
-  to {
-    transform: rotate(360deg);
+
+  &__title {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    //TODO
+    font-size: calc(min(100px, calc(max(8vw, 32px))));
+    line-height: calc(min(100px, calc(max(8vw, 32px))) * 1.2);
+
+    margin: 0;
+
+    font-family: Ubuntu;
+    font-style: normal;
+    font-weight: bold;
+
+    color: $color-base-weak;
+
+    //TODO
+    width: calc(min(100px, calc(max(8vw, 32px))) * 7.65);
+
+    span:first-child {
+      align-self: flex-start;
+    }
+    span:last-child {
+      align-self: flex-end;
+    }
+  }
+
+  &__footer {
+    width: 100%;
+    height: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    font-family: Ubuntu;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 14px;
+    line-height: 18px;
+
+    color: $color-base-weak;
+
+    opacity: 0.6;
+
+    margin: 16px 0;
   }
 }
