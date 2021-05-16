@@ -1,11 +1,10 @@
-@import "../src/styles/variables.scss";
+@import "../../styles/variables.scss";
 
 .forecast-card {
-  width: 90%;
+  width: 100%;
   max-width: 660px;
   min-width: 300px;
 
-  height: 90%;
   max-height: 524px;
   min-height: 524px;
 
@@ -75,7 +74,7 @@
 
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: space-around;
   }
 
   &__placeholder {

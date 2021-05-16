@@ -1,6 +1,6 @@
 import React from "react";
 import "./App.scss";
-import ForecastCard from "./ForecastCard";
+import ForecastCard from "./components/view/ForecastCard";
 
 function App() {
 	return (

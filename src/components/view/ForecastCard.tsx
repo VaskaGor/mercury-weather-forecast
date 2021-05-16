@@ -1,6 +1,9 @@
 import React from "react";
 import "./ForecastCard.scss";
-import forecastPlaceholderImage from "../src/assets/placeholder/forecast-placeholder.svg";
+import forecastPlaceholderImage from "../../assets/placeholder/forecast-placeholder.svg";
+import BaseSearchInput from "../shared/BaseSearchInput";
+import BaseDateInput from "../shared/BaseDateInput";
+import WeatherCard from "./WeatherCard";
 
 function ForecastCard() {
 	return (
@@ -9,8 +12,8 @@ function ForecastCard() {
 				<h1 className="forecast-card__title">Forecast for a Date in the Past</h1>
 			</div>
 			<div className="forecast-card__search-bar">
-				<div style={{ width: '252px', minWidth: '252px', height: '48px', background: '#8083A4', borderRadius: '8px', opacity: 0.6 }}></div>
-				<div style={{ width: '252px', minWidth: '252px', height: '48px', background: '#8083A4', borderRadius: '8px', opacity: 0.6 }}></div>
+				<BaseSearchInput placeholder={'Select city'}></BaseSearchInput>
+				<BaseDateInput placeholder={'Select date'}></BaseDateInput>
 			</div>
 			<div className="forecast-card__information">
 				{/* weather cards or empty preview */}
@@ -22,6 +25,14 @@ function ForecastCard() {
 						Fill in all the fields and the weather will be displayed
 					</span>
 				</div>
+				{/* 				<div style={{ display: 'flex', overflowX: 'auto', overflow: 'hidden' }}><WeatherCard></WeatherCard>
+					<WeatherCard></WeatherCard>
+					<WeatherCard></WeatherCard>
+					<WeatherCard></WeatherCard>
+					<WeatherCard></WeatherCard>
+					<WeatherCard></WeatherCard>
+					<WeatherCard></WeatherCard></div> */}
+
 			</div>
 		</div>
 	);

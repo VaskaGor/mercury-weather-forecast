@@ -1,0 +1,82 @@
+@import "../../styles/variables.scss";
+
+.weather-card {
+  width: 100%;
+  max-width: 174px;
+  min-width: 174px;
+
+  height: 238px;
+  max-height: 238px;
+  min-height: 238px;
+
+  background: $color-accent;
+
+  border: 2px solid $color-base;
+  box-sizing: border-box;
+  box-shadow: 0px 4px 4px rgba($color-base, 0.25),
+    14px 14px 20px rgba($color-base, 0.2);
+  border-radius: 8px;
+
+  display: flex;
+  flex-direction: column;
+
+  &__top {
+    flex-grow: 1;
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+  }
+
+  &__date {
+    text-align: left;
+
+    font-family: Ubuntu;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 16px;
+    line-height: 24px;
+
+    margin: 20px 20px 15px 20px;
+
+    color: $color-base-weak;
+  }
+
+  &__middle {
+    flex-grow: 3;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    user-select: none;
+    pointer-events: none;
+  }
+
+  &__weather-icon {
+    width: 120px;
+    height: 120px;
+    user-select: none;
+    pointer-events: none;
+  }
+
+  &__bottom {
+    flex-grow: 1;
+
+    display: flex;
+    align-items: flex-end;
+    justify-content: flex-end;
+  }
+
+  &__temperature {
+    text-align: right;
+
+    font-family: Ubuntu;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 32px;
+    line-height: 32px;
+
+    margin: 15px 20px 20px 20px;
+
+    color: $color-base-weak;
+  }
+}
