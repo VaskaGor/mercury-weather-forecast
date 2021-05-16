@@ -1,5 +1,6 @@
 import React from "react";
 import "./App.scss";
+import ForecastCard from "./ForecastCard";
 
 function App() {
 	return (
@@ -12,6 +13,12 @@ function App() {
 			</header>
 
 			<main className="app__main">
+				<div className="app__forecast-column">
+					<ForecastCard></ForecastCard>
+				</div>
+				<div className="app__forecast-column">
+					<ForecastCard></ForecastCard>
+				</div>
 			</main>
 
 			<footer className="app__footer">

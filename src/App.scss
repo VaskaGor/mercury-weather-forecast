@@ -3,7 +3,7 @@
 .app {
   text-align: center;
   background-color: $color-accent;
-  height: 100vh;
+  min-height: 100vh;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -15,12 +15,16 @@
   background-position: 0% 100%, 100% 0%;
 
   min-width: $content-min-width;
-  min-height: $content-min-height;
+  //min-height: $content-min-height;
+
+  $header-title-font-size: calc(min(100px, calc(max(8vw, 32px))));
+  $header-height: calc(#{$header-title-font-size} * 2.6);
+  $footer-height: calc(18px + 16px + 16px);
+  $forecast-column-height: calc(100vh - #{$header-height} - #{$footer-height});
 
   &__header {
     width: 100%;
-    //TODO
-    height: calc(min(100px, calc(max(8vw, 32px))) * 3);
+    height: $header-height;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -35,19 +39,18 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    //TODO
-    font-size: calc(min(100px, calc(max(8vw, 32px))));
-    line-height: calc(min(100px, calc(max(8vw, 32px))) * 1.2);
+
+    font-size: $header-title-font-size;
+    line-height: calc(#{$header-title-font-size} * 1.1);
 
     margin: 0;
 
-    font-family: Ubuntu;
+    font-family: "Ubuntu";
     font-style: normal;
     font-weight: bold;
 
     color: $color-base-weak;
 
-    //TODO
     width: calc(min(100px, calc(max(8vw, 32px))) * 7.65);
 
     span:first-child {
@@ -58,6 +61,31 @@
     }
   }
 
+  &__main {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+  }
+
+  &__forecast-column {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 50%;
+    //height: $forecast-column-height;
+    //max-height: cacl(524px + 30px);
+
+    //background: rgba( #000000, 0.1);
+    //border: 1px solid black;
+    //box-sizing: border-box;
+  }
+
+  @media (max-width: 1024px) {
+    &__forecast-column {
+      width: 100%;
+    }
+  }
+
   &__footer {
     width: 100%;
     height: 18px;
@@ -65,7 +93,7 @@
     align-items: center;
     justify-content: center;
 
-    font-family: Ubuntu;
+    font-family: "Ubuntu";
     font-style: normal;
     font-weight: normal;
     font-size: 14px;
