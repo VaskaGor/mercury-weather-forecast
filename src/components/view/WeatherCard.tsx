@@ -2,9 +2,12 @@ import React from "react";
 import "./WeatherCard.scss";
 import forecastPlaceholderImage from "../../assets/placeholder/forecast-placeholder.svg";
 
-function WeatherCard() {
+function WeatherCard(props: any) {
+
+	const { isAdaptiveWidth } = props;
+
 	return (
-		<div className="weather-card">
+		<div className={'weather-card ' + (isAdaptiveWidth ? 'weather-card_adaptive-width' : '')}>
 			<div className="weather-card__top">
 				<p className="weather-card__date">29 sep 2021</p>
 			</div>

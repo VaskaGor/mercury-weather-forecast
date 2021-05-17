@@ -14,10 +14,10 @@ function App() {
 
 			<main className="app__main">
 				<div className="app__forecast-column">
-					<ForecastCard></ForecastCard>
+					<ForecastCard isSingleDateForecast={false}></ForecastCard>
 				</div>
 				<div className="app__forecast-column">
-					<ForecastCard></ForecastCard>
+					<ForecastCard isSingleDateForecast={true}></ForecastCard>
 				</div>
 			</main>
 

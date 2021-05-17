@@ -1,0 +1,81 @@
+.cards-carousel {
+  width: 100%;
+  position: relative;
+
+  &__slides {
+    display: flex;
+
+    overflow-x: auto;
+    overflow-y: hidden;
+    scroll-snap-type: x mandatory;
+
+    scroll-behavior: smooth;
+    -webkit-overflow-scrolling: touch;
+
+    &::-webkit-scrollbar {
+      width: 0px;
+      height: 0px;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      background: rgba(black, 0.2);
+      border-radius: 10px;
+      display: none;
+    }
+
+    &::-webkit-scrollbar-track {
+      background: transparent;
+    }
+
+    & > div {
+      scroll-snap-align: start;
+      flex-shrink: 0;
+      padding: 10px 10px 10px 0;
+      transform-origin: center center;
+      position: relative;
+
+      &:last-child {
+        padding-right: 0px;
+      }
+    }
+  }
+
+  &__switch-button {
+    position: absolute;
+    width: 24px;
+    height: 24px;
+    top: calc(50% - 10px);
+
+    opacity: 0.8;
+    outline: none;
+    user-select: none;
+    border: none;
+    margin: 0;
+    padding: 0;
+
+    &:hover {
+      opacity: 1;
+      cursor: pointer;
+    }
+
+    &_disabled {
+      opacity: 0.5;
+
+      &:hover {
+        opacity: 0.5;
+        cursor: default;
+        pointer-events: none;
+      }
+    }
+
+    &_left {
+      left: -24px;
+      background: url("../../assets/icons/24/chevron-left.svg");
+    }
+
+    &_right {
+      right: -24px;
+      background: url("../../assets/icons/24/chevron-right.svg");
+    }
+  }
+}
