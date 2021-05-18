@@ -1,32 +1,29 @@
 import React, { useState } from "react";
+import IBaseObject from "../../models/IBaseObject";
 import "./BaseSearchInput.scss";
 
 function BaseSearchInput(props: any) {
-	const { placeholder } = props;
+	const { placeholder, options, onChangeOption } = props;
 
 	const [isActive, setIsActive] = useState(false);
 
-	//TODO
-	//create normal search-input
+	const optionsList = !!options ? options.map((option: IBaseObject) =>
+		<option value={option.id} key={option.id}>{option.name}</option>
+	) : null;
+
+	const optionChanged = (event: any) => {
+		const foundOption: IBaseObject = options.find((o: IBaseObject) => o.id.toString() === event.target.value.toString());
+		onChangeOption(foundOption);
+	};
 
 	return (
 		<div className={'input-component ' + (isActive ? 'input-component_active' : '')} onBlur={() => setIsActive(false)}>
-			<input list="cookies" placeholder={placeholder} className="input-component__input" onClick={() => setIsActive(true)} />
-
-			<datalist id="cookies">
-				<option value="Chocolate Chip" />
-				<option value="Peanut Butter" />
-				<option value="Raisin Oatmeal" />
-				<option value="Chocolate Chip1" />
-				<option value="Peanut Butter1" />
-				<option value="Raisin Oatmeal1" />
-				<option value="Chocolate Chip2" />
-				<option value="Peanut Butter2" />
-				<option value="Raisin Oatmeal2" />
-				<option value="Chocolate Chip3" />
-				<option value="Peanut Butter3" />
-				<option value="Raisin Oatmeal3" />
-			</datalist>
+			<select name="" id="" className="input-component__input"
+				onFocus={() => setIsActive(true)}
+				onChange={optionChanged}>
+				<option value="" disabled hidden selected>{placeholder}</option>
+				{optionsList}
+			</select>
 		</div>
 	);
 }

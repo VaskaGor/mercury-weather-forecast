@@ -10,6 +10,8 @@
   box-sizing: border-box;
   border-radius: 8px;
 
+  margin: 5px 0;
+
   &__input {
     width: 100%;
     height: 100%;
@@ -41,6 +43,8 @@
 
     option {
       color: $color-base;
+      height: 48px;
+      padding: 50px;
     }
   }
 
