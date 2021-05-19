@@ -1,4 +1,5 @@
 import ICity from "../models/ICity";
+import IDayForecast from "../models/IDayForecast";
 import DateHelper from "./DateHelper";
 
 const objToQueryString = (obj: any) => {
@@ -10,8 +11,12 @@ const objToQueryString = (obj: any) => {
 }
 
 const apiKey = "47059c77f16288ad28c4a6f1e475471f";
+const weatherIconBaseURL = "http://openweathermap.org/img/wn/";
 
 const WeatherApiService = {
+	getWeatherIconURL: function (iconId: string): any {
+		return `${weatherIconBaseURL}${iconId}@2x.png`;
+	},
 	getPastDayForecast: function (city: ICity, dateTime: number, callback: Function): any {
 		const params = {
 			lat: city.latitude,
@@ -23,9 +28,8 @@ const WeatherApiService = {
 		fetch(`https://api.openweathermap.org/data/2.5/onecall/timemachine?${objToQueryString(params)}`,)
 			.then(res => res.json())
 			.then((data) => {
-				console.log(data);
 				let day: any = data.current;
-				const forecast = {
+				const forecast: IDayForecast = {
 					date: DateHelper.convertDateToUserView(DateHelper.convertUTCTimeToDate(day.dt)),
 					temperature: Math.round(day.temp),
 					weather: {
@@ -33,7 +37,6 @@ const WeatherApiService = {
 						iconId: day.weather[0].icon
 					}
 				};
-				console.log(forecast);
 				callback(forecast);
 				return forecast;
 			})
@@ -52,8 +55,7 @@ const WeatherApiService = {
 		fetch(`https://api.openweathermap.org/data/2.5/onecall?${objToQueryString(params)}`,)
 			.then(res => res.json())
 			.then((data) => {
-				console.log(data);
-				const forecast = data.daily.slice(1).map((day: any) => {
+				const forecast: IDayForecast[] = data.daily.slice(1).map((day: any) => {
 					return {
 						date: DateHelper.convertDateToUserView(DateHelper.convertUTCTimeToDate(day.dt)),
 						temperature: Math.round(day.temp.day),
@@ -63,7 +65,6 @@ const WeatherApiService = {
 						}
 					}
 				});
-				console.log(forecast);
 				callback(forecast);
 				return forecast;
 			})

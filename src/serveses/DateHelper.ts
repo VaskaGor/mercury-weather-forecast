@@ -43,8 +43,8 @@ const DateHelper = {
 		}
 		return (yyyy + '-' + mm + '-' + dd).toString();
 	},
-	convertDateToUTCTime(date: Date): number {
-		return Math.floor(date.getTime() / 1000);
+	convertDateTimeToUTCTime(dateTime: number): number {
+		return Math.floor(dateTime / 1000);
 	},
 	convertUTCTimeToDate(time: number): Date {
 		return new Date(time * 1000);

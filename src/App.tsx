@@ -3,6 +3,11 @@ import "./App.scss";
 import ForecastCard from "./components/view/ForecastCard";
 
 function App() {
+
+	/* TODO
+	нормальный селект
+	вынести логику из карточек прогноза в апп
+	попробоать победить заголовок */
 	const cities = [{
 		id: 0,
 		name: "Самара",

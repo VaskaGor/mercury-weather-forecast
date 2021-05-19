@@ -55,7 +55,6 @@
     align-items: center;
 
     user-select: none;
-    pointer-events: none;
     position: relative;
   }
 
@@ -63,7 +62,7 @@
     width: 120px;
     height: 120px;
     user-select: none;
-    pointer-events: none;
+    -webkit-user-drag: none;
   }
 
   &__bottom {
@@ -86,5 +85,10 @@
     margin: 15px 20px 20px 20px;
 
     color: $color-base-weak;
+  }
+
+  &_loading {
+    opacity: 0.7;
+    pointer-events: none;
   }
 }

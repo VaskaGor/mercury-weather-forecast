@@ -78,4 +78,10 @@
       background: url("../../assets/icons/24/chevron-right.svg");
     }
   }
+
+  @media (max-width: 600px) {
+    &__switch-button {
+      display: none;
+    }
+  }
 }

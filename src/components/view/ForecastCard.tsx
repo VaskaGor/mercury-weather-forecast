@@ -9,42 +9,37 @@ import IBaseObject from "../../models/IBaseObject";
 import WeatherApiService from "../../serveses/WeatherApiService";
 import DateHelper from "../../serveses/DateHelper";
 import ICity from "../../models/ICity";
+import IDayForecast from "../../models/IDayForecast";
 
 function ForecastCard(props: any) {
 
 	const { isSingleDateForecast, cities } = props;
 
-	const [hasForecastData, setHasForecastData] = useState(false);
 	const [pastDayForcastSelectedCity, setPastDayForcastSelectedCity] = useState<ICity | null>(null);
 	const [pastDayForcastSelectedDate, setPastDayForcastSelectedDate] = useState<number | null>(null);
 	const [sevenDaysForcastSelectedCity, setSevenDaysForcastSelectedCity] = useState<ICity | null>(null);
-	const [forecastData, setForecastData] = useState<Array<any> | Object | null>(null);
+	const [forecastData, setForecastData] = useState<Array<IDayForecast> | IDayForecast | null>(null);
+	const [isScrolledToStart, setIsScrolledToStart] = useState<boolean>(true);
+	const [isScrolledToEnd, setIsScrolledToEnd] = useState<boolean>(false);
+	const [isLoading, setIsLoading] = useState<boolean>(false);
 
-	const updateForecastData = () => {
+	useEffect(() => {
 		if (isSingleDateForecast) {
 			if (!!pastDayForcastSelectedCity && !!pastDayForcastSelectedDate) {
-				WeatherApiService.getPastDayForecast(pastDayForcastSelectedCity, pastDayForcastSelectedDate, setForecastData);
-				setHasForecastData(true);
-			} else {
-				setHasForecastData(false);
+				setIsLoading(true);
+				WeatherApiService.getPastDayForecast(pastDayForcastSelectedCity, pastDayForcastSelectedDate, (data: IDayForecast) => { setForecastData(data); setIsLoading(false) });
 			}
 		} else {
 			if (!!sevenDaysForcastSelectedCity) {
-				WeatherApiService.getSevenDaysForecast(sevenDaysForcastSelectedCity, setForecastData);
-				setHasForecastData(true);
-			} else {
-				setHasForecastData(false);
+				setIsLoading(true);
+				WeatherApiService.getSevenDaysForecast(sevenDaysForcastSelectedCity, (data: IDayForecast[]) => { setForecastData(data); setIsLoading(false) });
 			}
 		}
-	};
+	}, [isSingleDateForecast, pastDayForcastSelectedCity, pastDayForcastSelectedDate, sevenDaysForcastSelectedCity]);
 
-	useEffect(() => {
-		updateForecastData();
-	}, [pastDayForcastSelectedCity,
-		pastDayForcastSelectedDate,
-		sevenDaysForcastSelectedCity]);
-
-	const today: string = DateHelper.getDateString(new Date());
+	const today: Date = new Date();
+	today.setTime(today.getTime() - DateHelper.oneDayOffset);
+	const yesterday: string = DateHelper.getDateString(today);
 	const dateFiveDaysAgo: Date = new Date();
 	dateFiveDaysAgo.setTime(dateFiveDaysAgo.getTime() - DateHelper.oneDayOffset * 5);
 	const fiveDaysAgo: string = DateHelper.getDateString(dateFiveDaysAgo);
@@ -52,19 +47,28 @@ function ForecastCard(props: any) {
 	const weatherCardsSlides = useRef(null);
 	const weatherCardWidth = 184;
 
+	const slidesScrolled = (event: any) => {
+		if (event.target.scrollLeft === 0) {
+			setIsScrolledToStart(true);
+			setIsScrolledToEnd(false);
+		} else if (event.target.scrollLeft === (event.target.scrollWidth - event.target.offsetWidth)) {
+			setIsScrolledToStart(false);
+			setIsScrolledToEnd(true);
+		} else {
+			setIsScrolledToStart(false);
+			setIsScrolledToEnd(false);
+		}
+	}
+
 	const rightButtonClick = () => {
-		//TODO check all sroll width
 		if (!!weatherCardsSlides && !!weatherCardsSlides.current) {
 			const slides = (weatherCardsSlides!.current! as Element);
-
 			slides.scroll(slides.scrollLeft + weatherCardWidth, 0);
 		}
 	};
 	const leftButtonClick = () => {
-		//TODO check all sroll width
 		if (!!weatherCardsSlides && !!weatherCardsSlides.current) {
 			const slides = (weatherCardsSlides!.current! as Element);
-			const weatherCardWidth = 184;
 			slides.scroll(slides.scrollLeft - weatherCardWidth, 0);
 		}
 	};
@@ -81,30 +85,50 @@ function ForecastCard(props: any) {
 
 	const changeSelectedDate = (selectedDate: Date) => {
 		if (isSingleDateForecast) {
-			const selectedDateTimeUTC = DateHelper.convertDateToUTCTime(selectedDate);
+			const selectedDateTimeUTC = DateHelper.convertDateTimeToUTCTime(selectedDate.getTime() + Math.round(DateHelper.oneDayOffset / 2));
 			console.log(selectedDateTimeUTC);
 			setPastDayForcastSelectedDate(selectedDateTimeUTC);
 		}
 	};
 
 	const forecastView = isSingleDateForecast
-		? (hasForecastData ? <div style={{ margin: '10px 0', width: '100%' }}>
+		? (!!forecastData ? <div style={{ margin: '10px 0', width: '100%' }}>
 			<WeatherCard
 				isAdaptiveWidth={true}
-				date={!!forecastData ? (forecastData! as any).date : 'empty'}
-				temperature={!!forecastData ? (forecastData! as any).temperature : 0}>
+				dayForecast={forecastData}
+				isLoading={isLoading}>
 			</WeatherCard>
 		</div> : null)
-		: (hasForecastData ? <div className="cards-carousel">
-			<div className="cards-carousel__slides" ref={weatherCardsSlides}>
-				{forecastData && (forecastData as Array<any>).map((f: any) =>
-					<div><WeatherCard date={f.date} temperature={f.temperature}></WeatherCard></div>
+		: (!!forecastData ? <div className="cards-carousel">
+			<div className="cards-carousel__slides" ref={weatherCardsSlides} onScroll={slidesScrolled}>
+				{forecastData && (forecastData as IDayForecast[]).map((f: any) =>
+					<div>
+						<WeatherCard
+							dayForecast={f}
+							isLoading={isLoading}
+						></WeatherCard>
+					</div>
 				)}
 			</div>
-			{/* cards-carousel__switch-button_disabled */}
-			<button className="cards-carousel__switch-button cards-carousel__switch-button_left" onClick={leftButtonClick}></button>
-			<button className="cards-carousel__switch-button cards-carousel__switch-button_right" onClick={rightButtonClick}></button>
-		</div> : null);
+			<button className={'cards-carousel__switch-button cards-carousel__switch-button_left '
+				+ (isScrolledToStart ? 'cards-carousel__switch-button_disabled' : '')}
+				onClick={leftButtonClick}>
+			</button>
+			<button
+				className={'cards-carousel__switch-button cards-carousel__switch-button_right '
+					+ (isScrolledToEnd ? 'cards-carousel__switch-button_disabled' : '')}
+				onClick={rightButtonClick}>
+			</button>
+		</div > : null);
+
+	const placeholderView = (!forecastData &&
+		<div className="forecast-card__placeholder">
+			<img src={forecastPlaceholderImage} alt="Cloud" className="forecast-card__placeholder-image">
+			</img>
+			<span className="forecast-card__placeholder-title">
+				Fill in all the fields and the weather will be displayed
+			</span>
+		</div>);
 
 	return (
 		<div className="forecast-card">
@@ -116,20 +140,14 @@ function ForecastCard(props: any) {
 				{isSingleDateForecast &&
 					<BaseDateInput placeholder={'Select date'}
 						minDate={fiveDaysAgo}
-						maxDate={today}
+						maxDate={yesterday}
 						onChangeDate={changeSelectedDate}>
 					</BaseDateInput>}
 			</div>
 			<div className="forecast-card__information">
-				{!hasForecastData && <div className="forecast-card__placeholder">
-					<img src={forecastPlaceholderImage} alt="Cloud" className="forecast-card__placeholder-image">
-
-					</img>
-					<span className="forecast-card__placeholder-title">
-						Fill in all the fields and the weather will be displayed
-					</span>
-				</div>}
+				{placeholderView}
 				{forecastView}
+				<div></div>
 			</div>
 		</div >
 	);
