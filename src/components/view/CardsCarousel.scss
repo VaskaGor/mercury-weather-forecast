@@ -1,3 +1,5 @@
+@import "../../styles/variables.scss";
+
 .cards-carousel {
   width: 100%;
   position: relative;
@@ -79,7 +81,7 @@
     }
   }
 
-  @media (max-width: 600px) {
+  @media (max-width: $content-mobile-width) {
     &__switch-button {
       display: none;
     }

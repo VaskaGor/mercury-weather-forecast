@@ -34,7 +34,7 @@ const DateHelper = {
 	getDateString(date: Date): string {
 		let dd: number | string = date.getDate();
 		let mm: number | string = date.getMonth() + 1;
-		const yyyy: any = date.getFullYear();
+		const yyyy: number | string = date.getFullYear();
 		if (dd < 10) {
 			dd = '0' + dd;
 		}

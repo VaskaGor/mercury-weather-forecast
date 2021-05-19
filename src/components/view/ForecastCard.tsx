@@ -1,41 +1,29 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useRef, useState } from "react";
 import "./ForecastCard.scss";
 import "./CardsCarousel.scss";
 import forecastPlaceholderImage from "../../assets/placeholder/forecast-placeholder.svg";
-import BaseSearchInput from "../shared/BaseSearchInput";
+import BaseSelect from "../shared/BaseSelect";
 import BaseDateInput from "../shared/BaseDateInput";
 import WeatherCard from "./WeatherCard";
-import IBaseObject from "../../models/IBaseObject";
-import WeatherApiService from "../../serveses/WeatherApiService";
 import DateHelper from "../../serveses/DateHelper";
 import ICity from "../../models/ICity";
 import IDayForecast from "../../models/IDayForecast";
 
-function ForecastCard(props: any) {
+interface ForecastCardProps extends React.InputHTMLAttributes<HTMLInputElement> {
+	isSingleDateForecast: boolean,
+	cities: ICity[],
+	forecastData: IDayForecast | IDayForecast[] | null,
+	isLoading: boolean,
+	changeSelectedCity: Function,
+	changeSelectedDate: Function
+};
 
-	const { isSingleDateForecast, cities } = props;
+function ForecastCard(props: ForecastCardProps) {
 
-	const [pastDayForcastSelectedCity, setPastDayForcastSelectedCity] = useState<ICity | null>(null);
-	const [pastDayForcastSelectedDate, setPastDayForcastSelectedDate] = useState<number | null>(null);
-	const [sevenDaysForcastSelectedCity, setSevenDaysForcastSelectedCity] = useState<ICity | null>(null);
-	const [forecastData, setForecastData] = useState<Array<IDayForecast> | IDayForecast | null>(null);
+	const { isSingleDateForecast, cities, forecastData, isLoading, changeSelectedCity, changeSelectedDate } = props;
+
 	const [isScrolledToStart, setIsScrolledToStart] = useState<boolean>(true);
 	const [isScrolledToEnd, setIsScrolledToEnd] = useState<boolean>(false);
-	const [isLoading, setIsLoading] = useState<boolean>(false);
-
-	useEffect(() => {
-		if (isSingleDateForecast) {
-			if (!!pastDayForcastSelectedCity && !!pastDayForcastSelectedDate) {
-				setIsLoading(true);
-				WeatherApiService.getPastDayForecast(pastDayForcastSelectedCity, pastDayForcastSelectedDate, (data: IDayForecast) => { setForecastData(data); setIsLoading(false) });
-			}
-		} else {
-			if (!!sevenDaysForcastSelectedCity) {
-				setIsLoading(true);
-				WeatherApiService.getSevenDaysForecast(sevenDaysForcastSelectedCity, (data: IDayForecast[]) => { setForecastData(data); setIsLoading(false) });
-			}
-		}
-	}, [isSingleDateForecast, pastDayForcastSelectedCity, pastDayForcastSelectedDate, sevenDaysForcastSelectedCity]);
 
 	const today: Date = new Date();
 	today.setTime(today.getTime() - DateHelper.oneDayOffset);
@@ -73,37 +61,20 @@ function ForecastCard(props: any) {
 		}
 	};
 
-	const changeSelectedCity = (city: IBaseObject) => {
-		if (isSingleDateForecast) {
-			console.log(city);
-			setPastDayForcastSelectedCity(city as ICity);
-		} else {
-			console.log(city);
-			setSevenDaysForcastSelectedCity(city as ICity);
-		}
-	};
-
-	const changeSelectedDate = (selectedDate: Date) => {
-		if (isSingleDateForecast) {
-			const selectedDateTimeUTC = DateHelper.convertDateTimeToUTCTime(selectedDate.getTime() + Math.round(DateHelper.oneDayOffset / 2));
-			console.log(selectedDateTimeUTC);
-			setPastDayForcastSelectedDate(selectedDateTimeUTC);
-		}
-	};
-
 	const forecastView = isSingleDateForecast
 		? (!!forecastData ? <div style={{ margin: '10px 0', width: '100%' }}>
 			<WeatherCard
 				isAdaptiveWidth={true}
-				dayForecast={forecastData}
+				dayForecast={forecastData as IDayForecast}
 				isLoading={isLoading}>
 			</WeatherCard>
 		</div> : null)
 		: (!!forecastData ? <div className="cards-carousel">
 			<div className="cards-carousel__slides" ref={weatherCardsSlides} onScroll={slidesScrolled}>
-				{forecastData && (forecastData as IDayForecast[]).map((f: any) =>
-					<div>
+				{forecastData && (forecastData as IDayForecast[]).map((f: IDayForecast) =>
+					<div key={f.date}>
 						<WeatherCard
+							isAdaptiveWidth={false}
 							dayForecast={f}
 							isLoading={isLoading}
 						></WeatherCard>
@@ -132,11 +103,15 @@ function ForecastCard(props: any) {
 
 	return (
 		<div className="forecast-card">
-			<div className="forecast-card__header">
+			<div className={'forecast-card__header ' + (isSingleDateForecast ? 'forecast-card__header_long-title' : '')}>
 				<h1 className="forecast-card__title">{isSingleDateForecast ? 'Forecast for a Date in the Past' : '7 Days Forecast'}</h1>
 			</div>
 			<div className="forecast-card__search-bar">
-				<BaseSearchInput placeholder={'Select city'} options={cities} onChangeOption={changeSelectedCity}></BaseSearchInput>
+				<BaseSelect
+					placeholder={'Select city'}
+					options={cities}
+					onChangeOption={(city: ICity) => changeSelectedCity(city, isSingleDateForecast)}>
+				</BaseSelect>
 				{isSingleDateForecast &&
 					<BaseDateInput placeholder={'Select date'}
 						minDate={fiveDaysAgo}

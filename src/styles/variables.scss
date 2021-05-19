@@ -3,7 +3,8 @@
 $content-min-width: 320px;
 $content-min-height: 767px;
 
-$content-mobile-tablet-width: 1024px;
+$content-tablet-width: 1024px;
+$content-mobile-width: 600px;
 
 //COLORS
 $color-base: #2c2d76;
@@ -11,9 +12,3 @@ $color-secondary: #8083a4;
 $color-accent: #373af5;
 $color-critic: #e5596d;
 $color-base-weak: #ffffff;
-
-//Z-indexes
-$z-index_0: 0;
-$z-index_1: 1;
-$z-index_10: 10;
-$z-index_20: 20;

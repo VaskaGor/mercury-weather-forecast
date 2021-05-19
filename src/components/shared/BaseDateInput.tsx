@@ -1,7 +1,15 @@
 import React, { useState } from "react";
 import "./BaseDateInput.scss";
 
-function BaseDateInput(props: any) {
+interface BaseDateInputProps extends React.InputHTMLAttributes<HTMLInputElement> {
+	placeholder: string,
+	minDate: string,
+	maxDate: string,
+	onChangeDate: Function
+};
+
+
+function BaseDateInput(props: BaseDateInputProps) {
 	const { placeholder, minDate, maxDate, onChangeDate } = props;
 
 	const [isActive, setIsActive] = useState(false);

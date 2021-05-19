@@ -1,13 +1,59 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import "./App.scss";
 import ForecastCard from "./components/view/ForecastCard";
+import IBaseObject from "./models/IBaseObject";
+import ICity from "./models/ICity";
+import IDayForecast from "./models/IDayForecast";
+import DateHelper from "./serveses/DateHelper";
+import WeatherApiService from "./serveses/WeatherApiService";
 
 function App() {
 
-	/* TODO
-	нормальный селект
-	вынести логику из карточек прогноза в апп
-	попробоать победить заголовок */
+	const [pastDayForcastSelectedCity, setPastDayForcastSelectedCity] = useState<ICity | null>(null);
+	const [pastDayForcastSelectedDate, setPastDayForcastSelectedDate] = useState<number | null>(null);
+	const [pastDayForecastData, setPastDayForecastData] = useState<IDayForecast | null>(null);
+	const [isPastDayForecastData, setIsPastDayForecastDataLoading] = useState<boolean>(false);
+
+	const [sevenDaysForcastSelectedCity, setSevenDaysForcastSelectedCity] = useState<ICity | null>(null);
+	const [sevenDaysForecastData, setSevenDaysForecastData] = useState<Array<IDayForecast> | null>(null);
+	const [isSevenDaysForecastDataLoading, setIsSevenDaysForecastDataLoading] = useState<boolean>(false);
+
+
+	useEffect(() => {
+		if (!!pastDayForcastSelectedCity && !!pastDayForcastSelectedDate) {
+			setIsPastDayForecastDataLoading(true);
+			WeatherApiService.getPastDayForecast(pastDayForcastSelectedCity,
+				pastDayForcastSelectedDate, (data: IDayForecast) => {
+					setPastDayForecastData(data);
+					setIsPastDayForecastDataLoading(false);
+				});
+		}
+	}, [pastDayForcastSelectedCity, pastDayForcastSelectedDate]);
+
+	useEffect(() => {
+		if (!!sevenDaysForcastSelectedCity) {
+			setIsSevenDaysForecastDataLoading(true);
+			WeatherApiService.getSevenDaysForecast(sevenDaysForcastSelectedCity,
+				(data: IDayForecast[]) => {
+					setSevenDaysForecastData(data);
+					setIsSevenDaysForecastDataLoading(false);
+				});
+		}
+	}, [sevenDaysForcastSelectedCity]);
+
+	const changeSelectedCity = (city: IBaseObject, isSingleDateForecast: boolean) => {
+		if (isSingleDateForecast) {
+			setPastDayForcastSelectedCity(city as ICity);
+		} else {
+			setSevenDaysForcastSelectedCity(city as ICity);
+		}
+	};
+
+	const changeSelectedDate = (selectedDate: Date) => {
+		const selectedDateTimeUTC = DateHelper.convertDateTimeToUTCTime(selectedDate.getTime() + Math.round(DateHelper.oneDayOffset / 2));
+		setPastDayForcastSelectedDate(selectedDateTimeUTC);
+	};
+
 	const cities = [{
 		id: 0,
 		name: "Самара",
@@ -46,10 +92,22 @@ function App() {
 
 			<main className="app__main">
 				<div className="app__forecast-column">
-					<ForecastCard isSingleDateForecast={false} cities={cities}></ForecastCard>
+					<ForecastCard
+						isSingleDateForecast={false}
+						cities={cities}
+						forecastData={sevenDaysForecastData}
+						isLoading={isSevenDaysForecastDataLoading}
+						changeSelectedCity={changeSelectedCity}
+						changeSelectedDate={changeSelectedDate}></ForecastCard>
 				</div>
 				<div className="app__forecast-column">
-					<ForecastCard isSingleDateForecast={true} cities={cities}></ForecastCard>
+					<ForecastCard
+						isSingleDateForecast={true}
+						cities={cities}
+						forecastData={pastDayForecastData}
+						isLoading={isPastDayForecastData}
+						changeSelectedCity={changeSelectedCity}
+						changeSelectedDate={changeSelectedDate}></ForecastCard>
 				</div>
 			</main>
 

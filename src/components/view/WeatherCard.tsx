@@ -1,8 +1,15 @@
 import React from "react";
+import IDayForecast from "../../models/IDayForecast";
 import WeatherApiService from "../../serveses/WeatherApiService";
 import "./WeatherCard.scss";
 
-function WeatherCard(props: any) {
+interface WeatherCardProps extends React.InputHTMLAttributes<HTMLInputElement> {
+	isAdaptiveWidth: boolean,
+	isLoading: boolean,
+	dayForecast: IDayForecast,
+};
+
+function WeatherCard(props: WeatherCardProps) {
 
 	const { isAdaptiveWidth, isLoading, dayForecast } = props;
 

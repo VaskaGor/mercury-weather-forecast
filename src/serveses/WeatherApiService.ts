@@ -14,10 +14,10 @@ const apiKey = "47059c77f16288ad28c4a6f1e475471f";
 const weatherIconBaseURL = "http://openweathermap.org/img/wn/";
 
 const WeatherApiService = {
-	getWeatherIconURL: function (iconId: string): any {
+	getWeatherIconURL: function (iconId: string): string {
 		return `${weatherIconBaseURL}${iconId}@2x.png`;
 	},
-	getPastDayForecast: function (city: ICity, dateTime: number, callback: Function): any {
+	getPastDayForecast: function (city: ICity, dateTime: number, callback: Function): void {
 		const params = {
 			lat: city.latitude,
 			lon: city.longitude,
@@ -38,14 +38,13 @@ const WeatherApiService = {
 					}
 				};
 				callback(forecast);
-				return forecast;
 			})
 			.catch((err) => {
 				console.log(err);
-				return null;
+				callback(null);
 			})
 	},
-	getSevenDaysForecast: function (city: ICity, callback: Function): any {
+	getSevenDaysForecast: function (city: ICity, callback: Function): void {
 		const params = {
 			lat: city.latitude,
 			lon: city.longitude,
@@ -66,11 +65,10 @@ const WeatherApiService = {
 					}
 				});
 				callback(forecast);
-				return forecast;
 			})
 			.catch((err) => {
 				console.log(err);
-				return null;
+				callback(null);
 			})
 	},
 }
