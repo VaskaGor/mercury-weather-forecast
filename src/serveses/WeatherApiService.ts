@@ -10,7 +10,7 @@ const objToQueryString = (obj: any) => {
 	return keyValuePairs.join('&');
 }
 
-const apiKey = "47059c77f16288ad28c4a6f1e475471f";
+const apiKey = "dd0c5383ed3ef5146baae1a53c5225f6";
 const weatherIconBaseURL = "http://openweathermap.org/img/wn/";
 
 const WeatherApiService = {
@@ -29,6 +29,13 @@ const WeatherApiService = {
 			.then(res => res.json())
 			.then((data) => {
 				let day: any = data.current;
+				if (!day) {
+					if (!!data.message) {
+						alert(data.message);
+					}
+					callback(null);
+					return;
+				}
 				const forecast: IDayForecast = {
 					date: DateHelper.convertDateToUserView(DateHelper.convertUTCTimeToDate(day.dt)),
 					temperature: Math.round(day.temp),
@@ -54,6 +61,13 @@ const WeatherApiService = {
 		fetch(`https://api.openweathermap.org/data/2.5/onecall?${objToQueryString(params)}`,)
 			.then(res => res.json())
 			.then((data) => {
+				if (!data.daily) {
+					if (!!data.message) {
+						alert(data.message);
+					}
+					callback(null);
+					return;
+				}
 				const forecast: IDayForecast[] = data.daily.slice(1).map((day: any) => {
 					return {
 						date: DateHelper.convertDateToUserView(DateHelper.convertUTCTimeToDate(day.dt)),

@@ -18,6 +18,17 @@ function App() {
 	const [sevenDaysForecastData, setSevenDaysForecastData] = useState<Array<IDayForecast> | null>(null);
 	const [isSevenDaysForecastDataLoading, setIsSevenDaysForecastDataLoading] = useState<boolean>(false);
 
+	/* 	useEffect(() => {
+			if (!!sessionStorage.getItem("weatherAPIKey")) {
+				console.log(sessionStorage.getItem("weatherAPIKey"));
+				//add key in project
+			} else {
+				const newKey = prompt("Enter your OpenWeatherMap API KEY:");
+				if (!!newKey) {
+					sessionStorage.setItem("weatherAPIKey", newKey);
+				}
+			}
+		}); */
 
 	useEffect(() => {
 		if (!!pastDayForcastSelectedCity && !!pastDayForcastSelectedDate) {
