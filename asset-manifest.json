@@ -1,0 +1,26 @@
+{
+  "files": {
+    "main.css": "/mercury-weather-forecast/static/css/main.877c12dd.chunk.css",
+    "main.js": "/mercury-weather-forecast/static/js/main.e58a1231.chunk.js",
+    "main.js.map": "/mercury-weather-forecast/static/js/main.e58a1231.chunk.js.map",
+    "runtime-main.js": "/mercury-weather-forecast/static/js/runtime-main.983ced2f.js",
+    "runtime-main.js.map": "/mercury-weather-forecast/static/js/runtime-main.983ced2f.js.map",
+    "static/js/2.b6b73cea.chunk.js": "/mercury-weather-forecast/static/js/2.b6b73cea.chunk.js",
+    "static/js/2.b6b73cea.chunk.js.map": "/mercury-weather-forecast/static/js/2.b6b73cea.chunk.js.map",
+    "index.html": "/mercury-weather-forecast/index.html",
+    "static/css/main.877c12dd.chunk.css.map": "/mercury-weather-forecast/static/css/main.877c12dd.chunk.css.map",
+    "static/js/2.b6b73cea.chunk.js.LICENSE.txt": "/mercury-weather-forecast/static/js/2.b6b73cea.chunk.js.LICENSE.txt",
+    "static/media/index.scss": "/mercury-weather-forecast/static/media/Ubuntu-Regular.5d534041.ttf",
+    "static/media/BaseDateInput.scss": "/mercury-weather-forecast/static/media/calendar.b59ccd47.svg",
+    "static/media/BaseSelect.scss": "/mercury-weather-forecast/static/media/chevron-top.01db9ee1.svg",
+    "static/media/CardsCarousel.scss": "/mercury-weather-forecast/static/media/chevron-right.d8b7c444.svg",
+    "static/media/forecast-placeholder.1a743710.svg": "/mercury-weather-forecast/static/media/forecast-placeholder.1a743710.svg",
+    "static/media/App.scss": "/mercury-weather-forecast/static/media/main-background-up.1b9e0722.png"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.983ced2f.js",
+    "static/js/2.b6b73cea.chunk.js",
+    "static/css/main.877c12dd.chunk.css",
+    "static/js/main.e58a1231.chunk.js"
+  ]
+}
