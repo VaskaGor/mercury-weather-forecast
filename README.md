@@ -1,8 +1,10 @@
-# Getting Started with Create React App
+# Mercury Weather Forecast
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Тестовое задание для React Bootcamp 2021
 
-## Available Scripts
+#
+
+## Скрипты для запуска
 
 In the project directory, you can run:
 
@@ -11,36 +13,39 @@ In the project directory, you can run:
 Runs the app in the development mode.\
 Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
-
-### `yarn test`
-
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
 ### `yarn build`
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+Builds the app for production to the `build` folder.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+# Пояснения к выполненному проекту и спорные моменты
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+1.  <b>Логотип</b> <br>
+    Было несколько идей как красиво и быстро сделать адаптивный header с заголовком "Weather forecast" с правильно сдвинутым текстом. Пожалуй самое простое - это сделать из него SVG и просто вставить в header. Итоговое решение может и не самое правильное, но мне показалось интересным. Хотелось бы узнать как делать подобные заголовки правильно.
 
-### `yarn eject`
+2.  <b>Карусель карточек</b> <br>
+    Из макета не очень было понятно как должна вести себя карусель на десктопной версии и при адаптировании под мобильную версию. В итоге в моем проекте должно вести себя так: на десктопной версии работают только кнопки, на планшете есть и кнопки и свайп пальцем, на мобильной - кнопки пропадают и остается только возможность свайпать пальцем.
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+3.  <b>Работа с API</b> <br>
+    Здесь сразу несколько нюансов
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+    - <i>Ключ API.</i> Само собой хранить ключ в исходном коде - плохая идея. Для разработки я бы хранил сервисный ключ в .env.local, а в production версии пользователю необходимо было бы вводить свой ключ. Как вариант - записывать введенный ключ в cookie или в sessionStorage и считывать при запуске приложения. Заготовка есть в App.tsx в закомментированном виде. Но, так как это тестовое приложение, то для удобства его проверки ключ зашит в исходном коде в WeatherApiService.ts
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+    - <i>Подгрузка данных.</i> В ТЗ не было ничего сказано о том что делать в момент подгрузки данных с сервера. В данном проекте, на момент смены данных в карточке прогноза, на карточки погоды вешается лоадер загрузки. Реализовано на скорую руку, но идея думаю ясна.
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+    - <i>Ошибки подгрузки данных.</i> Также в ТЗ не было ничего о том как обрабатывать ошибки API. Сделал вывод ошибки в консоль и по возможности сообщение об ошибке в `alert`.
 
-## Learn More
+    - <i>Ограничения API.</i> Данные в прошлом доступны только на 5 дней назад, а прогноз на ближайшие дни выдает 8 дней, а не 7 (включая текущий). Был выбор какой день отбрасывать: текущий или восьмой. Выбор пал на текущий. Может не логично, что сайт прогноза погоды не показывает погоду на сегодня, но будем считать, что погоду на сейчас можно увидеть за окном, а то что было вчера или будет завтра, может быть полезным)
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+4.  <b>Selector</b> <br>
+    Селектпикеры - это всегда боль. Кастомные не обходятся без JS и иногда плохо отлаживаются, а нативные практически никак не кастомизирются, но зато безотказно работают. В данном проекте использован нативный `html` `select`. Негативно сказалось на дизайне и не по макету, но зато точно будет работать. Тоже хотелось бы увидеть идеальное решение этого момента.
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+5.  <b>Отсутствие Store</b> <br>
+    Думаю в каждом современном frontend проекте не обойтись без стора. Особенно в `React`. В данном тестовом пробовал подключить Store, но возникли некоторые сложности (в частности с хуками компонентов) и я решил от него отказаться. Было бы интересно в дальнейшем научиться правильно работать со стором и корректно использовать хуки. Был опыт работы со стором `Vuex` во `Vue.JS` но там все несколько проще. Хотя, вероятно, просто нехватает опыта работы и все не так сложно как показалось на первый взгляд.
+
+# P.S.
+
+Выполнение данного тестового было для меня неким вызовом, так как на `React` до этого никогда не писал. Интересно было сравнивать возможности данного фреймворка с `Vue.JS` на котором сейчас активно веду разработку в компании.
+
+Спасибо за возможность принять участие и за качественно подготовленное задание и в частности макет!
+
+Буду рад пройти в следующий этап)

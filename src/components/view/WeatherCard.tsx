@@ -16,7 +16,7 @@ function WeatherCard(props: WeatherCardProps) {
 	return (
 		<div className={'weather-card ' + (isAdaptiveWidth ? 'weather-card_adaptive-width ' : '') + (isLoading ? 'weather-card_loading ' : '')}>
 			<div className="weather-card__top">
-				<p className="weather-card__date">{!!dayForecast ? dayForecast.date : ''}</p>
+				<p className="weather-card__date">{dayForecast?.date ?? ''}</p>
 			</div>
 			<div className="weather-card__middle">
 				{!!dayForecast &&
@@ -33,4 +33,4 @@ function WeatherCard(props: WeatherCardProps) {
 	);
 }
 
-export default WeatherCard;
+export default React.memo(WeatherCard);

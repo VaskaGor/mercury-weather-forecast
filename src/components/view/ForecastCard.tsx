@@ -103,7 +103,7 @@ function ForecastCard(props: ForecastCardProps) {
 
 	return (
 		<div className="forecast-card">
-			<div className={'forecast-card__header ' + (isSingleDateForecast ? 'forecast-card__header_long-title' : '')}>
+			<div className="forecast-card__header">
 				<h1 className="forecast-card__title">{isSingleDateForecast ? 'Forecast for a Date in the Past' : '7 Days Forecast'}</h1>
 			</div>
 			<div className="forecast-card__search-bar">
@@ -128,4 +128,4 @@ function ForecastCard(props: ForecastCardProps) {
 	);
 }
 
-export default ForecastCard;
+export default React.memo(ForecastCard);

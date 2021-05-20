@@ -14,9 +14,9 @@ function BaseSelect(props: BaseSelectProps) {
 	const [isActive, setIsActive] = useState(false);
 	const [value, setValue] = useState("");
 
-	const optionsList = !!options ? options.map((option: IBaseObject) =>
+	const optionsList = options?.map((option: IBaseObject) =>
 		<option value={option.id} key={option.id}>{option.name}</option>
-	) : null;
+	);
 
 	const optionChanged = (event: any) => {
 		const foundOption: IBaseObject | undefined = options.find((o: IBaseObject) => o.id.toString() === event.target.value.toString());
